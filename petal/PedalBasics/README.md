@@ -9,6 +9,8 @@ Room Size: **Knob 1**
 
 Send (dry/wet): **Knob 3**
 
+Dry Mix Override: **Switch 5**
+
 ## Delay
 Bypass: **Switch 2**
 
