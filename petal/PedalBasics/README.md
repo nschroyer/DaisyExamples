@@ -16,6 +16,12 @@ Delay Time: **Knob 2**
 
 Feedback: **Knob 4**
 
+## Pitch Shifter
+Semitones: **Encoder**
+
+## Gain
+Gain: **Knob 6**
+
 ## Install
 Build: `make`
 Install:
