@@ -1,12 +1,12 @@
 #include "daisysp.h"
-#include "daisy_pod.h"
+#include "daisy_petal.h"
 
 #define MAX_SIZE (48000 * 60 * 5) // 5 minutes of floats at 48 khz
 
 using namespace daisysp;
 using namespace daisy;
 
-static DaisyPod pod;
+static DaisyPetal petal;
 
 bool first = true;  //first loop (sets length)
 bool rec   = false; //currently recording
@@ -42,16 +42,23 @@ static void AudioCallback(float *in, float *out, size_t size)
 
 int main(void)
 {
-    // initialize pod hardware and oscillator daisysp module
+    // initialize petal hardware and oscillator daisysp module
 
-    pod.Init();
+    petal.Init();
     ResetBuffer();
 
     // start callback
-    pod.StartAdc();
-    pod.StartAudio(AudioCallback);
+    petal.StartAdc();
+    petal.StartAudio(AudioCallback);
 
-    while(1) {}
+    while(1) 
+    {
+        //leds
+        petal.SetFootswitchLed((DaisyPetal::FootswitchLed)1, play);
+        petal.SetFootswitchLed((DaisyPetal::FootswitchLed)0, rec);
+        petal.UpdateLeds();
+        dsy_system_delay(16); // 60Hz
+    }
 }
 
 //Resets the buffer
@@ -71,8 +78,8 @@ void ResetBuffer()
 
 void UpdateButtons()
 {
-    //button1 pressed
-    if(pod.button2.RisingEdge())
+    //switch1 pressed
+    if(petal.switches[0].RisingEdge())
     {
         if(first && rec)
         {
@@ -86,15 +93,15 @@ void UpdateButtons()
         rec  = !rec;
     }
 
-    //button1 held
-    if(pod.button2.TimeHeldMs() >= 1000 && res)
+    //switch1 held
+    if(petal.switches[0].TimeHeldMs() >= 1000 && res)
     {
         ResetBuffer();
 	res = false;
     }
     
-    //button2 pressed and not empty buffer
-    if(pod.button1.RisingEdge() && !(!rec && first))
+    //switch2 pressed and not empty buffer
+    if(petal.switches[1].RisingEdge() && !(!rec && first))
     {
         play = !play;
 	rec = false;
@@ -104,18 +111,13 @@ void UpdateButtons()
 //Deals with analog controls 
 void Controls()
 {
-    pod.UpdateAnalogControls();
-    pod.DebounceControls();
+    petal.UpdateAnalogControls();
+    petal.DebounceControls();
 
-    drywet = pod.knob1.Process();
+    drywet = petal.knob[0].Process();
 
     UpdateButtons();
 
-    //leds
-    pod.led1.Set(0, play == true, 0);
-    pod.led2.Set(rec == true, 0, 0);
-   
-    pod.UpdateLeds();
 }
 
 void WriteBuffer(float* in, size_t i)
