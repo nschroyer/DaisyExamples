@@ -3,26 +3,31 @@
 A basic pedal board with reverb and delay. More functions coming soon.
 
 ## Reverb
-Bypass: **Switch 1**
 
-Room Size: **Knob 1**
 
-Send (dry/wet): **Knob 3**
+| Control | Hardware |
+| - | - |
+| Bypass Effect | Switch 1 |
+| Room Size | Knob 1 |
+| Dry/Wet Crossfade | Knob 3 |
 
-Dry Mix Override: **Switch 5**
+## Distortion
 
-## Delay
-Bypass: **Switch 2**
-
-Delay Time: **Knob 2**
-
-Feedback: **Knob 4**
+| Control | Hardware |
+| - | - |
+| Bypass Effect | Switch 2 |
+| Algorithm (Up=tanh, Down=arctan) | Switch 6 |
+| Drive Amount | Knob 4 |
 
 ## Pitch Shifter
-Semitones: **Encoder**
+Pitch shift up or down an octave.
+This is a little buggy right now. Pitch shifting up works fine, but shifting down finicky.
 
-## Gain
-Gain: **Knob 6**
+| Control | Hardware |
+| - | - |
+| Shift Semitone Up/Down | Encoder (turn dial) |
+| Reset | Encoder (push in) |
+| Dry/Wet Crossfade | Knob 2 |
 
 ## Install
 Build: `make`
